@@ -37,13 +37,12 @@ class ControllerComponent extends Component {
     let boundingBoxWidth = 10
 
     let difference = camera.transform.x - player.transform.x;
-    if(Math.abs(difference) > boundingBoxWidth)
-    {
+    if (Math.abs(difference) > boundingBoxWidth) {
       //camera.transform.x -= difference -Math.abs(boundingBoxWidth)
-      if(difference < 0){
+      if (difference < 0) {
         //camera.transform.x -= Math.abs(-difference+boundingBoxWidth)
       }
-      else{
+      else {
 
       }
     }
@@ -65,6 +64,69 @@ class CloudGameObject extends GameObject {
   }
 }
 
+class FixedCameraComponent extends Component {
+  name = "FixedCameraComponent"
+  update() {
+    let playerGameObject = GameObject
+      .getObjectByName("PlayerGameObject")
+      .getComponent("PlayerComponent")
+    //The uncommented code is identical to this.
+    //I'm using this more complex math so we can compare it 
+    //to the other tracking options
+    //this.transform.x = playerGameObject.transform.x
+    let difference = playerGameObject.transform.x - this.transform.x;
+    this.transform.x += difference
+  }
+}
+
+class BoundaryCameraComponent extends Component {
+  update() {
+    let playerGameObject = GameObject
+      .getObjectByName("PlayerGameObject")
+
+    let maxDifference = 10;
+    let difference = playerGameObject.transform.x - this.transform.x;
+
+    if (difference > maxDifference) {
+      //The player is to the right
+      this.transform.x += difference - maxDifference
+    }
+    else if (difference < -maxDifference) {
+      //The player is to the left
+      this.transform.x += difference + maxDifference
+    }
+  }
+}
+
+class MomentumCameraComponent extends Component {
+  update() {
+    let playerGameObject = GameObject
+      .getObjectByName("PlayerGameObject")
+
+    let difference = playerGameObject.transform.x - this.transform.x;
+    this.transform.x += .1*difference
+  }
+}
+
+class MomentumBoundaryCameraComponent extends Component {
+  update() {
+    let playerGameObject = GameObject
+      .getObjectByName("PlayerGameObject")
+
+      let maxDifference = 10;
+      let difference = playerGameObject.transform.x - this.transform.x;
+  
+      if (difference > maxDifference) {
+        //The player is to the right
+        this.transform.x += .1*(difference - maxDifference)
+      }
+      else if (difference < -maxDifference) {
+        //The player is to the left
+        this.transform.x += .1*(difference + maxDifference)
+      }
+  }
+}
+
 class ExampleScene extends Scene {
   start() {
     this.addGameObject(
@@ -82,7 +144,28 @@ class ExampleScene extends Scene {
     )
     this.addGameObject(
       new GameObject("ControllerGameobject")
-        .addComponent(new ControllerComponent()))
+        .addComponent(new ControllerComponent())
+    )
+    this.addGameObject(
+      new GameObject("FixedCameraGameObject")
+        .addComponent(new FixedCameraComponent())
+        .addComponent(new Rectangle("Green"))
+    )
+    this.addGameObject(
+      new GameObject("BoundaryCameraGameObject")
+        .addComponent(new BoundaryCameraComponent())
+        .addComponent(new Rectangle("Red"))
+    )
+    this.addGameObject(
+      new GameObject("MomentumCameraGameObject")
+        .addComponent(new MomentumCameraComponent())
+        .addComponent(new Rectangle("Black"))
+    )
+    this.addGameObject(
+      new GameObject("MomentumBoundaryCameraGameObject")
+        .addComponent(new MomentumBoundaryCameraComponent())
+        .addComponent(new Rectangle("White"))
+    )
   }
 }
 

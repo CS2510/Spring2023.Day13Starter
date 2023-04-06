@@ -6,7 +6,7 @@
  */
 class Component{
   /** The name of the component */
-  name = ""
+  name = this.constructor.name
   /** 
    * The game object that acts holds this component 
    * To assure that this is set properly, 
