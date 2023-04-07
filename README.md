@@ -8,6 +8,28 @@ To run the games, load this directory in a web server (for example LiveServer). 
 
 The engine itself can be found in the engine directory. 
 
+## Files and folders
+
+### Folders
+- The following folders each have a specific game:
+  - blink
+  - camera-tracking
+  - layers
+  - orb
+  - pong
+
+The engine folder holds the engine.
+
+The text folder cotains tests.
+
+The test-components folder tests components.
+
+The example folder holds a boilerplate game. If you want to start a new game, start by duplicating this folder.
+
+### Files
+- index.html holds a test html file that lets you see all the included games at once. Convenient for check that changes don't break any of the example games
+- jsdoc.config.json holds the configuration required to generate the api documentation.
+
 ## Conventions
 This game engine is modelled to reflect the API of Unity so students are prepared to take CS3510, Advanced Game Programming, which is taught using Unity.
 
@@ -25,6 +47,7 @@ Unfortunately, the syntax of C# and JS are different, as are some of their funda
 - In Unity, scenes are stored as text files. In this project, scenes must be defined in code. Like game objects, the only code in custom scenes should be in start() and must be declarative. 
 - To preserve js conventions for class function names, the function names are in camelCase in this project. To covert code to Unity, change the function calls to PascalCase.
 - There is not a one-to-one correspondance between functions and classes in this project and the Unity API. Most of the omissions from the Unity API are for simplicity.
+- Folders at named using KebabCase.
 
 # Generating documentation
 
