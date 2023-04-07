@@ -29,19 +29,19 @@ class ControllerComponent extends Component {
   update() {
 
     if (keysDown["0"]) {
-      this.method = 0;
+      this.method = 0; //None
     }
     if (keysDown["1"]) {
-      this.method = 1;
+      this.method = 1; //Fixed
     }
     if (keysDown["2"]) {
-      this.method = 2;
+      this.method = 2; //Boundary
     }
     if (keysDown["3"]) {
-      this.method = 3;
+      this.method = 3; //Momentum
     }
     if (keysDown["4"]) {
-      this.method = 4;
+      this.method = 4; //Boundary+Momentum
     }
 
 
@@ -51,16 +51,16 @@ class ControllerComponent extends Component {
     //Otherwise, update the camera location
     let x = 0;
     if (this.method == 1) {
-      tracker = GameObject.getObjectByName("FixedCameraGameObject")
+      tracker = GameObject.getObjectByName("FixedTrackerGameObject")
     }
     if (this.method == 2) {
-      tracker = GameObject.getObjectByName("BoundaryCameraGameObject")
+      tracker = GameObject.getObjectByName("BoundaryTrackerGameObject")
     }
     if (this.method == 3) {
-      tracker = GameObject.getObjectByName("MomentumCameraGameObject")
+      tracker = GameObject.getObjectByName("MomentumTrackerGameObject")
     }
     if (this.method == 4) {
-      tracker = GameObject.getObjectByName("MomentumBoundaryCameraGameObject")
+      tracker = GameObject.getObjectByName("MomentumBoundaryTrackerGameObject")
     }
 
     Camera.main.transform.x = tracker.transform.x;
@@ -69,8 +69,8 @@ class ControllerComponent extends Component {
 }
 
 //A component that follows the player exactly
-class FixedCameraComponent extends Component {
-  name = "FixedCameraComponent"
+class FixedTrackerComponent extends Component {
+  name = "FixedTrackerComponent"
   update() {
     let playerGameObject = GameObject
       .getObjectByName("PlayerGameObject")
@@ -86,7 +86,7 @@ class FixedCameraComponent extends Component {
 
 //A component that follows the player within a tolerance
 //We reference to this tolerance the a boundary.
-class BoundaryCameraComponent extends Component {
+class BoundaryTrackerComponent extends Component {
   update() {
     let playerGameObject = GameObject
       .getObjectByName("PlayerGameObject")
@@ -111,7 +111,7 @@ class BoundaryCameraComponent extends Component {
 //A component that tracks the player, but with some
 //momentum. If the player moves fast, it will move off 
 //of center until we catch up
-class MomentumCameraComponent extends Component {
+class MomentumTrackerComponent extends Component {
   update() {
     let playerGameObject = GameObject
       .getObjectByName("PlayerGameObject")
@@ -128,7 +128,7 @@ class MomentumCameraComponent extends Component {
 //A component that tracks the player with momentum, but
 //only after the players has exceeded our tolerance
 //Effectively, this is a combination of Fixed and Boundary
-class MomentumBoundaryCameraComponent extends Component {
+class MomentumBoundaryTrackerComponent extends Component {
   update() {
     let playerGameObject = GameObject
       .getObjectByName("PlayerGameObject")
@@ -172,8 +172,8 @@ class CameraTrackingScene extends Scene {
     //Our four different tracking methods
     //The fixed tracking
     this.addGameObject(
-      new GameObject("FixedCameraGameObject")
-        .addComponent(new FixedCameraComponent())
+      new GameObject("FixedTrackerGameObject")
+        .addComponent(new FixedTrackerComponent())
         .addComponent(new Rectangle("Green")),
       new Vector2(0, 0),
       //Make this larger so it is always visible.
@@ -182,8 +182,8 @@ class CameraTrackingScene extends Scene {
     )
     //The boundary tracking
     this.addGameObject(
-      new GameObject("BoundaryCameraGameObject")
-        .addComponent(new BoundaryCameraComponent())
+      new GameObject("BoundaryTrackerGameObject")
+        .addComponent(new BoundaryTrackerComponent())
         .addComponent(new Rectangle("Red")),
       new Vector2(0, 0),
       //Make this larger so it is always visible.
@@ -192,14 +192,14 @@ class CameraTrackingScene extends Scene {
     )
     //The momentum tracking
     this.addGameObject(
-      new GameObject("MomentumCameraGameObject")
-        .addComponent(new MomentumCameraComponent())
+      new GameObject("MomentumTrackerGameObject")
+        .addComponent(new MomentumTrackerComponent())
         .addComponent(new Rectangle("Black"))
     )
     //The momentum boundary tracking
     this.addGameObject(
-      new GameObject("MomentumBoundaryCameraGameObject")
-        .addComponent(new MomentumBoundaryCameraComponent())
+      new GameObject("MomentumBoundaryTrackerGameObject")
+        .addComponent(new MomentumBoundaryTrackerComponent())
         .addComponent(new Rectangle("White"))
     )
     //Add the helper text game objects
