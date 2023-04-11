@@ -8,7 +8,7 @@ class EventComponent extends Component {
     ctx.fillStyle = `rgb(0, 0,255)`
     ctx.fillRect(-5, -5, 10, 10)
   }
-}
+} 
 
 class EventScene extends Scene {
   start() {
