@@ -10,6 +10,7 @@ import "./Line.js"
 import "./Text.js"
 import "./Vector2.js"
 import "./Time.js"
+import "./Input.js"
 
 //True if the gamee is paused, false otherwise
 let pause = false
@@ -291,6 +292,9 @@ function draw() {
  * - logicalWidth. The logical width of the game. The engine will scale the drawing area to support this logical width. Defaults to 100.
  */
 function start(title, settings = {}) {
+
+    //Boot the input event handlers
+    Input.start();
 
     //Match the size of the canvas to the browser's size
     //This allows us to respond to browser size changes
