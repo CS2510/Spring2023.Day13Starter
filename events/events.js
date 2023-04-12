@@ -10,18 +10,14 @@ class EventComponent extends Component {
     
     //From the draw function of the engine
     let browserAspectRatio = ctx.canvas.width / ctx.canvas.height;
-    let offsetX = 0;
-    let offsetY = 0;
     let browserWidth = ctx.canvas.width
     if (EngineGlobals.requestedAspectRatio > browserAspectRatio) {
-        let desiredHeight = ctx.canvas.width / EngineGlobals.requestedAspectRatio;
-        let amount = (ctx.canvas.height - desiredHeight) / 2;
-        offsetY = amount;
+        
+       
     }
     else {
         let desiredWidth = ctx.canvas.height * EngineGlobals.requestedAspectRatio
         let amount = (ctx.canvas.width - desiredWidth) / 2;
-        offsetX = amount
         browserWidth -= 2 * amount
     }
 
