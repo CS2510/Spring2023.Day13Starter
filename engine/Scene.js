@@ -23,13 +23,14 @@ class Scene {
    * @param {Number} rotation The initial rotation value. If no value is given, the rotation is 0
    * @returns A reference to the game object (to make a fluent interface)
    */
-  addGameObject(gameObject, translate = Vector2.zero, scale = Vector2.one, rotation = 0){
+  addGameObject(gameObject, translate = Vector2.zero, scale = Vector2.one, rotation = 0, layer = 0){
       this.gameObjects.push(gameObject);
       gameObject.transform.x = translate.x;
       gameObject.transform.y = translate.y;
       gameObject.transform.sx = scale.x;
       gameObject.transform.sy = scale.y;
       gameObject.transform.r = rotation;
+      gameObject.layer = layer;
 
       if(gameObject.start && !gameObject.started){
           gameObject.started = true

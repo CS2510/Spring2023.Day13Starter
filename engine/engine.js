@@ -6,6 +6,7 @@ import "./Transform.js"
 import "./Circle.js"
 import "./Camera.js"
 import "./Rectangle.js"
+import "./GUIRectangle.js"
 import "./Line.js"
 import "./Text.js"
 import "./Vector2.js"
@@ -230,7 +231,7 @@ function draw() {
 
     //Calculate the min and max layer
     //Map/Reduce
-    let min = scene.gameObjects
+    let min = scene.gameObjects.filter(go=>go.components.some(c=>c.draw))
     .map(go => go.layer)
     .reduce((previous, current)=>Math.min(previous, current))
 
@@ -253,9 +254,14 @@ function draw() {
 
     ctx.restore();
 
+
+    //Now draw the letterboxes
+    let zeroX = 0;
+    let zeroY = 0;
     if (EngineGlobals.requestedAspectRatio > browserAspectRatio) {
         let desiredHeight = canvas.width / EngineGlobals.requestedAspectRatio;
         let amount = (canvas.height - desiredHeight) / 2;
+        zeroY = amount;
         ctx.fillStyle = letterboxColor
         ctx.fillRect(0, 0, canvas.width, amount);
         ctx.fillRect(0, canvas.height - amount, canvas.width, amount);
@@ -263,14 +269,40 @@ function draw() {
     else {
         let desiredWidth = canvas.height * EngineGlobals.requestedAspectRatio
         let amount = (canvas.width - desiredWidth) / 2;
+        zeroX = amount;
         ctx.fillStyle = letterboxColor
         ctx.fillRect(0, 0, amount, canvas.height);
         ctx.fillRect(canvas.width - amount, 0, amount, canvas.height);
     }
 
-    //Check if it's too wide
-    //Calculate the letter boxing amount
-    //Fill the letter boxes
+    //Now draw any UI. Note we do this after we draw the letterboxes.
+
+     min = scene.gameObjects.filter(go=>go.components.some(c=>c.drawGUI))
+    .map(go => go.layer)
+    .reduce((previous, current)=>Math.min(previous, current))
+
+     max = scene.gameObjects
+    .map(go => go.layer)
+    .reduce((previous, current)=>Math.max(previous, current))
+
+    //Loop through the components and draw them.
+    ctx.save();
+    ctx.translate(zeroX, zeroY)
+    ctx.scale(logicalScaling, logicalScaling);
+    for (let i = min; i <= max; i++) {
+        let gameObjects = scene.gameObjects.filter(go=>go.layer==i)
+
+        for (let gameObject of gameObjects) {
+            for (let component of gameObject.components) {
+                if (component.drawGUI) {
+                    component.drawGUI(ctx)
+                }
+            }
+        }
+    }
+    ctx.restore();
+
+    
 
     //Draw debugging information
     let debug = false;
