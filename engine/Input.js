@@ -1,13 +1,9 @@
 class Input{
-  static mouseX;
-  static mouseY;
+  static mouseX = 0;
+  static mouseY = 0;
   static start(){
     let canvas = document.querySelector("#canv")
-    canvas.addEventListener("mousemove", e=>{
-      Input.mouseX = e.clientX;
-      Input.mouseY = e.clientY;
-
-    })
+    //Update the values of mouseX and mouseY
   }
 }
 
