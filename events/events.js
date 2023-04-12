@@ -4,42 +4,26 @@ class GUIMouseFollowerComponent extends Component {
   update(ctx) {
     //From the draw function of the engine
     let browserAspectRatio = ctx.canvas.width / ctx.canvas.height;
-    let browserWidth = ctx.canvas.width
-    if (EngineGlobals.requestedAspectRatio > browserAspectRatio) {
-
-
-    }
-    else {
-      let desiredWidth = ctx.canvas.height * EngineGlobals.requestedAspectRatio
-      let amount = (ctx.canvas.width - desiredWidth) / 2;
-      browserWidth -= 2 * amount
-    }
-
     let zeroX = 0;
     let zeroY = 0;
-    if (EngineGlobals.requestedAspectRatio > browserAspectRatio) {
-        let desiredHeight = ctx.canvas.width / EngineGlobals.requestedAspectRatio;
-        let amount = (ctx.canvas.height - desiredHeight) / 2;
-        zeroY = amount;
-    }
-    else {
-        let desiredWidth = ctx.canvas.height * EngineGlobals.requestedAspectRatio
-        let amount = (ctx.canvas.width - desiredWidth) / 2;
-        zeroX = amount;
-    }
+    if (EngineGlobals.requestedAspectRatio > browserAspectRatio)
+      zeroY = (ctx.canvas.height - ctx.canvas.width / EngineGlobals.requestedAspectRatio) / 2;
+    else
+      zeroX = (ctx.canvas.width - ctx.canvas.height * EngineGlobals.requestedAspectRatio) / 2;
 
+    let browserWidth = ctx.canvas.width
+    if (EngineGlobals.requestedAspectRatio <= browserAspectRatio) {
+      browserWidth -= zeroX*2
+    }
+    
     let logicalScaling = browserWidth / EngineGlobals.logicalWidth
 
     let x = Input.mouseX;
     let y = Input.mouseY;
     x -= zeroX;
     y -= zeroY;
-    // x -= ctx.canvas.width / 2;
-    // y -= ctx.canvas.height / 2;
     x /= logicalScaling;
     y /= logicalScaling;
-    // x += Camera.main.transform.x;
-    // y += Camera.main.transform.y;
 
 
     this.transform.x = x;
