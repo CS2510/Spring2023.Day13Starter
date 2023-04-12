@@ -5,8 +5,8 @@ class EventComponent extends Component {
   update(ctx) {
 
     //First adjust the camera for debugging
-    // Camera.main.transform.x = Math.sin(Time.time)*10;
-    // Camera.main.transform.y = Math.sin(Time.time)*10;
+    Camera.main.transform.x = Math.sin(Time.time)*10;
+    Camera.main.transform.y = Math.sin(Time.time)*10;
     
     //From the draw function of the engine
     let browserAspectRatio = ctx.canvas.width / ctx.canvas.height;
@@ -15,38 +15,31 @@ class EventComponent extends Component {
     let browserWidth = ctx.canvas.width
     if (EngineGlobals.requestedAspectRatio > browserAspectRatio) {
         let desiredHeight = ctx.canvas.width / EngineGlobals.requestedAspectRatio;
-        let amount = (ctx.canvas.height - ctx.desiredHeight) / 2;
+        let amount = (ctx.canvas.height - desiredHeight) / 2;
         offsetY = amount;
     }
     else {
-        let desiredWidth = canvas.height * EngineGlobals.requestedAspectRatio
-        let amount = (ctx.canvas.width - ctx.desiredWidth) / 2;
+        let desiredWidth = ctx.canvas.height * EngineGlobals.requestedAspectRatio
+        let amount = (ctx.canvas.width - desiredWidth) / 2;
         offsetX = amount
         browserWidth -= 2 * amount
     }
 
-    ctx.save();
     let logicalScaling = browserWidth / EngineGlobals.logicalWidth
-    ctx.translate(ctx.canvas.width / 2, ctx.canvas.height / 2)
-    ctx.scale(logicalScaling, logicalScaling)
-
-    ctx.translate(-Camera.main.transform.x, -Camera.main.transform.y)
-
+    
     let x = Input.mouseX;
     let y = Input.mouseY;
     x -= ctx.canvas.width/2;
     y -= ctx.canvas.height/2;
-    x += Camera.main.transform.x;
-    y += Camera.main.transform.y;
     x /= logicalScaling;
     y /= logicalScaling;
+    x += Camera.main.transform.x;
+    y += Camera.main.transform.y;
     
 
     this.transform.x = x;
     this.transform.y = y;
     console.log(Input.mouseX + ", " + Input.mouseY + "-> " + x + ", " + y)
-
-    ctx.restore();
   }
 } 
 
